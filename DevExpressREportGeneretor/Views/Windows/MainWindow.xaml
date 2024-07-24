@@ -1,0 +1,28 @@
+﻿<Window x:Class="DevExpressREportGeneretor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dxd="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
+        xmlns:l="clr-namespace:DevExpressREportGeneretor"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
+
+        Width="800" Height="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="15*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" IsMainMenu="True">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel LastChildFill="False"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="File">
+                <MenuItem Header="Generate Report" Command="{Binding GenerateReportCommand}"/>
+                <MenuItem Header="Exit" Command="{Binding CloseCommand}"/>
+            </MenuItem>
+        </Menu>
+    </Grid>
+</Window>
