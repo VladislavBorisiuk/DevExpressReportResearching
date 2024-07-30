@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:l="clr-namespace:DevExpressReportResearching"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:dxrud="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
+        xmlns:beh="clr-namespace:DevExpressReportResearching.Infrastructure.Behavior"
         xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
         x:Class="DevExpressReportResearching.MainWindow"
+        WindowState="Maximized"
         DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
         Title="Report Designer"
@@ -24,13 +27,16 @@
             </Menu.ItemsPanel>
             <MenuItem Header="File">
                 <MenuItem Header="Save" Command="{Binding SaveReportCommand}"/>
-                <MenuItem Header="Save" Command="{Binding OpenReportCommand}"/>
+                <MenuItem Header="Open" Command="{Binding OpenReportCommand}"/>
             </MenuItem>
 
         </Menu>
         <TabControl Grid.Row="1">
             <TabItem Header="Данные">
-                <DataGrid ItemsSource="{Binding Employers}" Grid.Row="1" AutoGenerateColumns="False">
+                <DataGrid ItemsSource="{Binding Employers}" Grid.Row="1" AutoGenerateColumns="False" >
+                    <i:Interaction.Behaviors>
+                        <beh:DataGridSelectionBehavior SelectedItems="{Binding SelectedEmployers}"/>
+                    </i:Interaction.Behaviors>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" />
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />

@@ -1,0 +1,56 @@
+﻿<Window x:Class="DevExpressReportResearching.Views.Windows.ChooseEmployersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:beh="clr-namespace:DevExpressReportResearching.Infrastructure.Behavior"
+        xmlns:local="clr-namespace:DevExpressReportResearching.Views.Windows"
+        mc:Ignorable="d"
+        Title="ChooseEmployers" Height="500" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- DataGrid с доступными работодателями -->
+        <DataGrid Grid.Row="0" Grid.Column="0" Margin="5" AutoGenerateColumns="False" ItemsSource="{Binding AvailableEmployers}">
+            <i:Interaction.Behaviors>
+                <beh:DataGridSelectionBehavior SelectedItems="{Binding SelectedAvailableEmployers}"/>
+            </i:Interaction.Behaviors>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки между DataGrid -->
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center">
+            <Button Content="Добавить" Command="{Binding AddEmployerCommand}" Margin="5"/>
+            <Button Content="Удалить" Command="{Binding RemoveEmployerCommand}" Margin="5"/>
+        </StackPanel>
+
+        <!-- DataGrid с выбранными работодателями -->
+        <DataGrid Grid.Row="0" Grid.Column="2" Margin="5" AutoGenerateColumns="False" ItemsSource="{Binding SelectedEmployers}" 
+                  SelectedItem="{Binding SelectedSelectedEmployer}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Position" Binding="{Binding Position}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопки Подтвердить и Отменить -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+            <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Margin="5"/>
+            <Button Content="Отменить" Command="{Binding CancelCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Window>

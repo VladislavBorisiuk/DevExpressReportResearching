@@ -10,6 +10,6 @@ namespace DevExpressReportResearching.Services.Interfaces
     {
         XtraReport? OpenReport();
         List<Employers> GetData();
-        void CreateReport();
+        List<string> CreateReport();
     }
 }

@@ -25,14 +25,13 @@ namespace DevExpressReportResearching.Services
             _context = new ReportDataContext();
         }
 
-        public void CreateReport()
+        public List<string> CreateReport()
         {
 
             // Создание отчета вручную
             /*
             XtraReport report = new XtraReport();
 
-            // Получаем данные и проверяем их наличие
             var data = GetData();
             if (data == null || !data.Any())
             {
@@ -40,15 +39,11 @@ namespace DevExpressReportResearching.Services
                 return;
             }
 
-            // Настройка источника данных
             report.DataSource = data;
             report.DataMember = "";
 
-            // Создание детали
             DetailBand detailBand = new DetailBand();
-            report.Bands.Add(detailBand);
-
-            // Создание таблицы
+            
             XRTable table = new XRTable();
             table.BeginInit();
             table.WidthF = report.PageWidth - report.Margins.Left - report.Margins.Right;
@@ -56,7 +51,6 @@ namespace DevExpressReportResearching.Services
             XRTableRow row = new XRTableRow();
             table.Rows.Add(row);
 
-            // Создание и настройка ячеек
             XRTableCell cellID = new XRTableCell();
             cellID.DataBindings.Add(new XRBinding("Text", null, "ID"));
             cellID.WidthF = table.WidthF / 3;
@@ -69,15 +63,13 @@ namespace DevExpressReportResearching.Services
             cellPosition.DataBindings.Add(new XRBinding("Text", null, "Position"));
             cellPosition.WidthF = table.WidthF / 3;
 
-            // Добавление ячеек в строку
             row.Cells.AddRange([cellID, cellName, cellPosition]);
 
             table.EndInit();
 
-            // Добавление таблицы в полосу деталей
             detailBand.Controls.Add(table);
+            report.Bands.Add(detailBand);
 
-            // Настройка диалога сохранения файла
             var saveFileDialog = new SaveFileDialog
             {
                 Filter = "Report files (*.repx)|*.repx|All files (*.*)|*.*",
@@ -85,21 +77,17 @@ namespace DevExpressReportResearching.Services
                 Title = "Save Report As"
             };
 
-            // Показываем диалог
+
             var result = saveFileDialog.ShowDialog();
 
-            // Проверяем, был ли выбран файл
             if (result == DialogResult.OK)
             {
                 try
                 {
-                    // Получаем путь для сохранения
                     string baseFileName = saveFileDialog.FileName;
 
-                    // Сохраняем отчет в выбранный файл
                     report.SaveLayoutToXml(baseFileName);
 
-                    // Экспортируем отчет в PDF с добавлением расширения
                     string pdfFileName = System.IO.Path.ChangeExtension(baseFileName, ".pdf");
                     report.ExportToPdf(pdfFileName);
 
@@ -107,13 +95,13 @@ namespace DevExpressReportResearching.Services
                 }
                 catch (Exception ex)
                 {
-                    // Обработка исключений
                     MessageBox.Show($"Ошибка сохранения отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }*/
 
 
-            var report = new EmployersReport();
+            /*var report = new EmployersReport();
+            //report.DataSource = GetData();
             var saveFileDialog = new SaveFileDialog
             {
                 Filter = "Report files (*.repx)|*.repx|All files (*.*)|*.*",
@@ -141,9 +129,39 @@ namespace DevExpressReportResearching.Services
                 {
                     MessageBox.Show($"Ошибка сохранения отчета: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }*/
+
+            // Путь к папке, которую нужно проверить
+            string folderPath = @"Resources"; // Замените на реальный путь
+            string fileExtension = ".repx"; // Замените на нужное расширение
+
+            try
+            {
+                // Проверка существования папки
+                if (Directory.Exists(folderPath))
+                {
+                    // Получение всех файлов с указанным расширением
+                    DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
+                    FileInfo[] files = directoryInfo.GetFiles("*" + fileExtension);
+
+                    // Вывод имен файлов
+                    List<string> names = new();
+                    foreach (FileInfo file in files)
+                    {
+                        names.Add(file.Name);
+                    }
+                    return names;
+                }
+                else
+                {
+                    Console.WriteLine($"Папка по пути '{folderPath}' не найдена.");
+                }
             }
-
-
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Произошла ошибка: {ex.Message}");
+            }
+            return null;
         }
 
         public XtraReport? OpenReport()

@@ -1,13 +1,16 @@
-﻿using DevExpressReportResearching.Services;
-using DevExpressReportResearching.ViewModels;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ReportCreator.Services;
+using ReportCreator.Services;
+using ReportCreator.Services;
+using ReportCreator.ViewModels;
+using ReportCreator.ViewModels;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace DevExpressReportResearching
+namespace ReportCreator
 {
     public partial class App
     {
@@ -16,9 +19,9 @@ namespace DevExpressReportResearching
 
         public static Window FocusedWindow => Current.Windows.Cast<Window>().FirstOrDefault(w => w.IsFocused);
 
-        private static IHost _Host;
+        private static IHost __Host;
 
-        public static IHost CurrentHost => _Host ??= new HostBuilder()
+        public static IHost Host => __Host ??= new HostBuilder()
             .ConfigureAppConfiguration(cfg => cfg.AddJsonFile("appsettings.json", true, true))
             .ConfigureServices((hostContext, services) => services
                 .AddViews()
@@ -26,11 +29,11 @@ namespace DevExpressReportResearching
             )
             .Build();
 
-        public static IServiceProvider Services => CurrentHost.Services;
+        public static IServiceProvider Services => Host.Services;
 
         protected override async void OnStartup(StartupEventArgs e)
         {
-            var host = CurrentHost;
+            var host = Host;
             base.OnStartup(e);
             await host.StartAsync();
         }
@@ -38,7 +41,7 @@ namespace DevExpressReportResearching
         protected override async void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            using var host = CurrentHost;
+            using var host = Host;
             await host.StopAsync();
         }
 
