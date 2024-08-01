@@ -3,9 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:l="clr-namespace:DevExpressReportResearching"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:dxrud="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesigner"
         xmlns:beh="clr-namespace:DevExpressReportResearching.Infrastructure.Behavior"
         xmlns:dxp="http://schemas.devexpress.com/winfx/2008/xaml/printing"
         x:Class="DevExpressReportResearching.MainWindow"
@@ -19,15 +17,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Menu DockPanel.Dock="Top" IsMainMenu="True" Grid.Row="0">
+        <Menu IsMainMenu="True" Grid.Row="0">
             <Menu.ItemsPanel>
                 <ItemsPanelTemplate>
                     <DockPanel LastChildFill="False"/>
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
             <MenuItem Header="File">
-                <MenuItem Header="Save" Command="{Binding SaveReportCommand}"/>
-                <MenuItem Header="Open" Command="{Binding OpenReportCommand}"/>
+                <MenuItem Header="Сгенерировать отчёт" Command="{Binding OpenReportCommand}"/>
             </MenuItem>
 
         </Menu>

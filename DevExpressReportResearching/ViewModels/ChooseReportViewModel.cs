@@ -1,18 +1,25 @@
-﻿using DevExpress.XtraReports.Serialization;
+﻿using DevExpress.DataAccess.Native.Sql.MasterDetail;
+using DevExpress.XtraReports.Serialization;
 using DevExpress.XtraReports.UI;
 using DevExpressReportResearching.Infrastructure.Commands;
 using DevExpressReportResearching.Infrastructure.StaticObjects;
 using DevExpressReportResearching.Models;
+using DevExpressReportResearching.Services;
+using DevExpressReportResearching.Services.Interfaces;
 using DevExpressReportResearching.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using XLabGlobal;
+using MessageBox = System.Windows.MessageBox;
 
 namespace DevExpressReportResearching.ViewModels
 {
     class ChooseReportViewModel : ViewModel
     {
+        private LoadReportService _loadReportService;
+        private XtraReport report;
         private List<Employers> EmpList;
         private ObservableCollection<string> _repxFiles;
         public ObservableCollection<string> RepxFiles
@@ -35,11 +42,17 @@ namespace DevExpressReportResearching.ViewModels
 
         private void Confirm()
         {
-            string filePath = $"Resources/Templates/{RepxFileName}";
-            XtraReport report = LoadReport(filePath);
-            report.DataSource = EmpList;
-            AppData.CurrentReport = report;
-            App.ActivedWindow.Close();
+            if(!string.IsNullOrEmpty(RepxFileName))
+            {
+                string filePath = $"Resources/Templates/{RepxFileName}";
+                XtraReport report = LoadReport(filePath);
+                AppData.CurrentReport = report;
+                App.ActivedWindow.Close();
+            }
+            else
+            {
+                MessageBox.Show("Выбирите шаблон отчета","Warning");
+            }
         }
 
         private void Cancel()
@@ -48,6 +61,7 @@ namespace DevExpressReportResearching.ViewModels
         }
         public ChooseReportViewModel(List<Employers> list)
         {
+            _loadReportService = new LoadReportService();
             EmpList = list;
             LoadRepxFiles(Directory.GetCurrentDirectory()+"/Resources/Templates"); 
             ConfirmCommand = new RelayCommand(Confirm);
@@ -65,12 +79,10 @@ namespace DevExpressReportResearching.ViewModels
 
         private XtraReport LoadReport(string filePath)
         {
-            DevExpress.Utils.DeserializationSettings.RegisterTrustedClass(typeof(Employers));
 
-            XtraReport report = new XtraReport();
             try
             {
-                report.LoadLayoutFromXml(filePath);
+                report = _loadReportService.LoadReport(filePath);
             }
             catch (Exception ex)
             {

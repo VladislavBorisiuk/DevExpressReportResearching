@@ -7,6 +7,7 @@
         xmlns:beh="clr-namespace:DevExpressReportResearching.Infrastructure.Behavior"
         xmlns:local="clr-namespace:DevExpressReportResearching.Views.Windows"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="ChooseEmployers" Height="500" Width="800">
     <Grid>
         <Grid.RowDefinitions>

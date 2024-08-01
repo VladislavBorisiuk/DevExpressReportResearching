@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm.Native;
 using DevExpressReportResearching.Infrastructure.Commands;
 using DevExpressReportResearching.Models;
+using DevExpressReportResearching.Services.Interfaces;
 using DevExpressReportResearching.ViewModels.Base;
 using DevExpressReportResearching.Views.Windows;
 using System.Collections.ObjectModel;

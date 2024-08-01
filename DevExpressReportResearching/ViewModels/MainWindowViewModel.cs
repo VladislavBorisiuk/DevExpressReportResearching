@@ -3,7 +3,6 @@ using DevExpress.Xpf.Printing;
 using DevExpress.Xpf.Reports.UserDesigner;
 using DevExpress.XtraReports.UI;
 using DevExpressReportResearching.Infrastructure.Commands;
-using DevExpressReportResearching.Infrastructure.Reports;
 using DevExpressReportResearching.Infrastructure.StaticObjects;
 using DevExpressReportResearching.Models;
 using DevExpressReportResearching.Services;
@@ -25,7 +24,7 @@ namespace DevExpressReportResearching.ViewModels
             get => AppData.CurrentReport; 
             set => Set(ref AppData.CurrentReport, value);
         }
-        public ICommand SaveReportCommand { get; }
+
         public ICommand OpenReportCommand { get; }
 
         private List<Employers> _employees;
@@ -49,19 +48,10 @@ namespace DevExpressReportResearching.ViewModels
         {
             _dataService = dataservice;
             _userDialog = dialog;
-            SaveReportCommand = new RelayCommand(SaveReport);
-            OpenReportCommand = new RelayCommand(OpenReport);
             Employers = _dataService.GetData();
+            OpenReportCommand = new RelayCommand(OpenReport);
             SelectedEmployers = new List<Employers>();
-            Report = new EmployersReport()
-            {
-                DataSource = Employers
-            };
-        }
-
-        private void SaveReport()
-        {
-           _dataService.CreateReport();
+            Report = new XtraReport();
         }
         
         private void OpenReport() 

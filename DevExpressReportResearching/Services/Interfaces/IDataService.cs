@@ -8,8 +8,6 @@ namespace DevExpressReportResearching.Services.Interfaces
 {
     internal interface IDataService
     {
-        XtraReport? OpenReport();
         List<Employers> GetData();
-        List<string> CreateReport();
     }
 }
